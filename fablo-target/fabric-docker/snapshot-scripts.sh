@@ -2,16 +2,24 @@
 
 __getOrdererAndPeerNodes() {
   echo "
-      orderer0.group1.orderer.example.com
-      peer0.org1.example.com
-      peer1.org1.example.com
+      orderer0.unikom.unikom.ac.id
+      peer0.wr.unikom.ac.id
+      peer0.direktorat.unikom.ac.id
+      peer1.direktorat.unikom.ac.id
+      peer0.prodi.unikom.ac.id
+      peer0.pic.unikom.ac.id
+      peer0.mahasiswa.unikom.ac.id
   "
 }
 
 __getCASQLiteNodes() {
   echo "
-      ca.orderer.example.com
-      ca.org1.example.com
+      ca.unikom.ac.id
+      ca.wr.unikom.ac.id
+      ca.direktorat.unikom.ac.id
+      ca.prodi.unikom.ac.id
+      ca.pic.unikom.ac.id
+      ca.mahasiswa.unikom.ac.id
   "
 }
 

@@ -30,52 +30,144 @@ Channel: &ChannelDefaults
 #   Section: Organizations
 ################################################################################
 Organizations:
-    - &Orderer
-      Name: OrdererMSP
-      ID: OrdererMSP
-      MSPDir: crypto-config/peerOrganizations/orderer.example.com/msp
+    - &Unikom
+      Name: UnikomMSP
+      ID: UnikomMSP
+      MSPDir: crypto-config/peerOrganizations/unikom.ac.id/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('OrdererMSP.member')"
+              Rule: "OR('UnikomMSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('OrdererMSP.member')"
+              Rule: "OR('UnikomMSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('OrdererMSP.admin')"
+              Rule: "OR('UnikomMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('OrdererMSP.member')"
+              Rule: "OR('UnikomMSP.member')"
 
       AnchorPeers:
 
-    - &Org1
-      Name: Org1MSP
-      ID: Org1MSP
-      MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+    - &WakilRektor
+      Name: WakilRektorMSP
+      ID: WakilRektorMSP
+      MSPDir: crypto-config/peerOrganizations/wr.unikom.ac.id/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('Org1MSP.member')"
+              Rule: "OR('WakilRektorMSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('Org1MSP.member')"
+              Rule: "OR('WakilRektorMSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('Org1MSP.admin')"
+              Rule: "OR('WakilRektorMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('Org1MSP.member')"
+              Rule: "OR('WakilRektorMSP.member')"
 
       AnchorPeers:
-          - Host: peer0.org1.example.com
+          - Host: peer0.wr.unikom.ac.id
             Port: 7041
 
-          - Host: peer1.org1.example.com
-            Port: 7042
+    - &Direktorat
+      Name: DirektoratMSP
+      ID: DirektoratMSP
+      MSPDir: crypto-config/peerOrganizations/direktorat.unikom.ac.id/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('DirektoratMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('DirektoratMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('DirektoratMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('DirektoratMSP.member')"
+
+      AnchorPeers:
+          - Host: peer0.direktorat.unikom.ac.id
+            Port: 7061
+
+          - Host: peer1.direktorat.unikom.ac.id
+            Port: 7062
+
+    - &ProgramStudi
+      Name: ProgramStudiMSP
+      ID: ProgramStudiMSP
+      MSPDir: crypto-config/peerOrganizations/prodi.unikom.ac.id/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('ProgramStudiMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('ProgramStudiMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('ProgramStudiMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('ProgramStudiMSP.member')"
+
+      AnchorPeers:
+          - Host: peer0.prodi.unikom.ac.id
+            Port: 7081
+
+    - &PIC
+      Name: PICMSP
+      ID: PICMSP
+      MSPDir: crypto-config/peerOrganizations/pic.unikom.ac.id/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('PICMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('PICMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('PICMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('PICMSP.member')"
+
+      AnchorPeers:
+          - Host: peer0.pic.unikom.ac.id
+            Port: 7101
+
+    - &Mahasiswa
+      Name: MahasiswaMSP
+      ID: MahasiswaMSP
+      MSPDir: crypto-config/peerOrganizations/mahasiswa.unikom.ac.id/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('MahasiswaMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('MahasiswaMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('MahasiswaMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('MahasiswaMSP.member')"
+
+      AnchorPeers:
+          - Host: peer0.mahasiswa.unikom.ac.id
+            Port: 7121
 
 ################################################################################
 #   SECTION: Application
@@ -104,10 +196,10 @@ Application: &ApplicationDefaults
 ################################################################################
 #   SECTION: Orderer
 ################################################################################
-Orderer: &Group1Defaults
+Orderer: &UnikomDefaults
     OrdererType: solo
     Addresses:
-        - orderer0.group1.orderer.example.com:7030
+        - orderer0.unikom.unikom.ac.id:7030
     BatchTimeout: 2s
     BatchSize:
         MaxMessageCount: 10
@@ -141,36 +233,71 @@ Orderer: &Group1Defaults
 # https://github:com/hyperledger/fabric/blob/master/sampleconfig/configtx.yaml
 
 Profiles:
-    # Profile used to create Genesis block for group group1 #
-    Group1Genesis:
+    # Profile used to create Genesis block for group unikom #
+    UnikomGenesis:
         <<: *ChannelDefaults
         Orderer:
-            <<: *Group1Defaults
+            <<: *UnikomDefaults
             Organizations:
-                - *Orderer
+                - *Unikom
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *Orderer
-                    - *Org1
+                    - *Unikom
+                    - *WakilRektor
+                    - *Direktorat
+                    - *ProgramStudi
+                    - *PIC
+                    - *Mahasiswa
 
-    # Profile used to create channeltx for my-channel1 #
-    MyChannel1:
+    # Profile used to create channeltx for pendaftaran #
+    Pendaftaran:
         <<: *ChannelDefaults
         Orderer:
-            <<: *Group1Defaults
+            <<: *UnikomDefaults
             Organizations:
-                - *Orderer
+                - *Unikom
             Capabilities:
                 <<: *ApplicationCapabilities
         Consortium: SampleConsortium
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *Org1
+                    - *WakilRektor
+                    - *PIC
+                    - *Mahasiswa
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
+                - *WakilRektor
+                - *PIC
+                - *Mahasiswa
+
+    # Profile used to create channeltx for nilai #
+    Nilai:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *UnikomDefaults
+            Organizations:
+                - *Unikom
+            Capabilities:
+                <<: *ApplicationCapabilities
+        Consortium: SampleConsortium
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *WakilRektor
+                    - *Direktorat
+                    - *ProgramStudi
+                    - *PIC
+                    - *Mahasiswa
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *WakilRektor
+                - *Direktorat
+                - *ProgramStudi
+                - *PIC
+                - *Mahasiswa

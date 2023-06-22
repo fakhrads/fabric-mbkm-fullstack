@@ -1,50 +1,147 @@
 {
   "$schema": "https://github.com/hyperledger-labs/fablo/releases/download/1.1.0/schema.json",
   "global": {
-    "fabricVersion": "2.4.0",
+    "fabricVersion": "2.3.3",
     "tls": false,
     "peerDevMode": false
+  },
+  "tools": { 
+    "explorer": true 
   },
   "orgs": [
     {
       "organization": {
-        "name": "Orderer",
-        "domain": "orderer.example.com"
+        "name": "Unikom",
+        "domain": "unikom.ac.id"
       },
-      "orderers": [
-        {
-          "groupName": "group1",
-          "type": "solo",
-          "instances": 1
-        }
-      ],
+      "orderers": [{
+        "groupName": "unikom",
+        "type": "solo",
+        "instances": 1
+      }]
+    },
+    {
+      "organization": {
+        "name": "WakilRektor",
+        "domain": "wr.unikom.ac.id"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "CouchDb"
+      },
       "tools": {
         "fabloRest": true
       }
     },
     {
       "organization": {
-        "name": "Org1",
-        "domain": "org1.example.com"
+        "name": "Direktorat",
+        "domain": "direktorat.unikom.ac.id"
       },
       "peer": {
         "instances": 2,
-        "db": "LevelDb"
+        "db": "CouchDb"
       },
       "tools": {
         "fabloRest": true
+      }
+    },
+    {
+      "organization": {
+        "name": "ProgramStudi",
+        "domain": "prodi.unikom.ac.id"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "CouchDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+    },
+    {
+      "organization": {
+        "name": "PIC",
+        "domain": "pic.unikom.ac.id"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "CouchDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+    },
+    {
+      "organization": {
+        "name": "Mahasiswa",
+        "domain": "mahasiswa.unikom.ac.id"
+      },
+      "peer": {
+        "instances": 1,
+        "db": "CouchDb"
+      },
+      "tools": {
+        "fabloRest": true,
+        "explorer": true
       }
     }
   ],
   "channels": [
     {
-      "name": "my-channel1",
+      "name": "pendaftaran",
       "orgs": [
         {
-          "name": "Org1",
+          "name": "WakilRektor",
           "peers": [
-            "peer0",
-            "peer1"
+            "peer0"
+          ]
+        },
+        {
+          "name": "Mahasiswa",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "PIC",
+          "peers": [
+            "peer0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nilai",
+      "orgs": [
+        {
+          "name": "WakilRektor",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "Mahasiswa",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "PIC",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "Direktorat",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "ProgramStudi",
+          "peers": [
+            "peer0"
           ]
         }
       ]
@@ -52,11 +149,18 @@
   ],
   "chaincodes": [
     {
-      "name": "chaincode1",
+      "name": "registry-chaincode",
       "version": "0.0.1",
       "lang": "node",
-      "channel": "my-channel1",
-      "directory": "./chaincodes/chaincode-kv-node"
+      "channel": "pendaftaran",
+      "directory": "./chaincodes/registry-chaincode"
+    },
+    {
+      "name": "score-chaincode",
+      "version": "0.0.1",
+      "lang": "node",
+      "channel": "nilai",
+      "directory": "./chaincodes/score-chaincode"
     }
   ]
 }

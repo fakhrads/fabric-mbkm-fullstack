@@ -1,8 +1,24 @@
 {
   "network-configs": {
-    "network-org1": {
-      "name": "Network of Org1",
-      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-org1.json"
+    "network-wakilrektor": {
+      "name": "Network of WakilRektor",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-wakilrektor.json"
+    },
+    "network-direktorat": {
+      "name": "Network of Direktorat",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-direktorat.json"
+    },
+    "network-programstudi": {
+      "name": "Network of ProgramStudi",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-programstudi.json"
+    },
+    "network-pic": {
+      "name": "Network of PIC",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-pic.json"
+    },
+    "network-mahasiswa": {
+      "name": "Network of Mahasiswa",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-mahasiswa.json"
     }
   },
   "license": "Apache-2.0"
