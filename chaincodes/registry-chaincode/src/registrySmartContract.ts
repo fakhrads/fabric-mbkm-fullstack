@@ -59,6 +59,7 @@ export class AssetTransferContract extends Contract {
             Program: program,
             Persetujuan: persetujuan,
         };
+        
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
         const idTrx = ctx.stub.getTxID();

@@ -1,4 +1,4 @@
-package smartcontract
+package mitra
 
 import (
 	"encoding/base64"
