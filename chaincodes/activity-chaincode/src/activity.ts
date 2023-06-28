@@ -7,6 +7,9 @@ import {Object, Property} from 'fabric-contract-api';
 @Object()
 export class Registry {
     @Property()
+    public docType?: string;
+
+    @Property()
     public ID: string;
 
     @Property()

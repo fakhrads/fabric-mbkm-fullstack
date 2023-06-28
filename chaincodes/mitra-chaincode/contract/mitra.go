@@ -15,15 +15,14 @@ type SmartContract struct {
 
 // Asset describes basic details of what makes up a simple asset
 type Asset struct {
-	ID             string `json:"ID"`
-	Color          string `json:"color"`
-	Size           int    `json:"size"`
-	Owner          string `json:"owner"`
-	AppraisedValue int    `json:"appraisedValue"`
+	ID          string `json:"ID"`
+	NamaMitra   string `json:"nama_mitra"`
+	LokasiMitra string `json:"lokasi_mitra"`
+	Owner       string `json:"owner"`
 }
 
 // CreateAsset issues a new asset to the world state with given details.
-func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface, id string, color string, size int, appraisedValue int) error {
+func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface, id string, nama_mitra string, lokasi_mitra string) error {
 
 	// Demonstrate the use of Attribute-Based Access Control (ABAC) by checking
 	// to see if the caller has the "abac.creator" attribute with a value of true;
@@ -49,11 +48,10 @@ func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface,
 	}
 
 	asset := Asset{
-		ID:             id,
-		Color:          color,
-		Size:           size,
-		Owner:          clientID,
-		AppraisedValue: appraisedValue,
+		ID:          id,
+		NamaMitra:   nama_mitra,
+		LokasiMitra: lokasi_mitra,
+		Owner:       clientID,
 	}
 	assetJSON, err := json.Marshal(asset)
 	if err != nil {
@@ -64,7 +62,7 @@ func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface,
 }
 
 // UpdateAsset updates an existing asset in the world state with provided parameters.
-func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface, id string, newColor string, newSize int, newValue int) error {
+func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface, id string, nama_mitra string, lokasi_mitra string) error {
 
 	asset, err := s.ReadAsset(ctx, id)
 	if err != nil {
@@ -80,9 +78,8 @@ func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface,
 		return fmt.Errorf("submitting client not authorized to update asset, does not own asset")
 	}
 
-	asset.Color = newColor
-	asset.Size = newSize
-	asset.AppraisedValue = newValue
+	asset.NamaMitra = nama_mitra
+	asset.LokasiMitra = lokasi_mitra
 
 	assetJSON, err := json.Marshal(asset)
 	if err != nil {
@@ -204,7 +201,7 @@ func (s *SmartContract) GetSubmittingClientIdentity(ctx contractapi.TransactionC
 
 	b64ID, err := ctx.GetClientIdentity().GetID()
 	if err != nil {
-		return "", fmt.Errorf("Failed to read clientID: %v", err)
+		return "", fmt.Errorf("failed to read clientid: %v", err)
 	}
 	decodeID, err := base64.StdEncoding.DecodeString(b64ID)
 	if err != nil {

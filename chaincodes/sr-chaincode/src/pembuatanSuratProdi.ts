@@ -5,10 +5,10 @@
 import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api';
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
-import {Registry} from './registry';
+import {SuratProdi} from './suratProdi';
 
 @Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
-export class AssetTransferContract extends Contract {
+export class PembuatanSuratProdi extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
@@ -18,7 +18,7 @@ export class AssetTransferContract extends Contract {
             throw new Error(`The asset ${id} already exists`);
         }
 
-        const asset: Registry = {
+        const asset: SuratProdi = {
             ID: id,
             IDMitra: id_mitra,
             NIM: nim,
@@ -52,7 +52,7 @@ export class AssetTransferContract extends Contract {
         }
 
         // overwriting original asset with new asset
-        const updatedAsset: Registry = {
+        const updatedAsset: SuratProdi = {
             ID: id,
             IDMitra: id_mitra,
             NIM: nim,

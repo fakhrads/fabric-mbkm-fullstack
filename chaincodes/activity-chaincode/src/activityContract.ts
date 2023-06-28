@@ -5,10 +5,10 @@
 import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api';
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
-import {Registry} from './registry';
+import {Registry} from './activity';
 
 @Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
-export class AssetTransferContract extends Contract {
+export class activityContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
