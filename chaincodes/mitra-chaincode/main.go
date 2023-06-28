@@ -11,7 +11,7 @@ import (
 	"log"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	mitra "github.com/fakhrads/fabric-mbkm-fullstack/chaincodes/mitra-chaincode/contract/contract"
+	mitra "github.com/fakhrads/fabric-mbkm-fullstack/chaincodes/mitra-chaincode/contract/mitra"
 )
 
 func main() {
