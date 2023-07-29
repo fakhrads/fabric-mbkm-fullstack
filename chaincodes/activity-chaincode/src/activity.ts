@@ -7,23 +7,21 @@ import {Object, Property} from 'fabric-contract-api';
 @Object()
 export class Registry {
     @Property()
-    public docType?: string;
+    public id: string;
 
     @Property()
-    public ID: string;
+    public pendaftaranId: string;
+    
+    @Property()
+    public nim: string;
 
     @Property()
-    public IDMitra: string;
+    public nama_kegiatan: string;
 
     @Property()
-    public NIM: string;
+    public deskripsi: string;
 
     @Property()
-    public File: string;
+    public timestamp: string;
 
-    @Property()
-    public Program: string;
-
-    @Property()
-    public Persetujuan: string;
 }

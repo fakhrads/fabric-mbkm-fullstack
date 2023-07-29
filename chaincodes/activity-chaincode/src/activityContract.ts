@@ -6,31 +6,32 @@ import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
 import {Registry} from './activity';
+const moment = require('moment');
 
 @Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
 export class activityContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, id_mitra: string, nim: string, file: string, program: string, persetujuan: string): Promise<String> {
+    public async CreateAsset(ctx: Context, id: string, id_pendaftaran: string, nim: string, nama_kegiatan: string, deskripsi: string, timestamp: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
         }
 
         const asset: Registry = {
-            ID: id,
-            IDMitra: id_mitra,
-            NIM: nim,
-            File: file,
-            Program: program,
-            Persetujuan: persetujuan,
+            id: id,
+            pendaftaranId: id_pendaftaran,
+            nim: nim,
+            nama_kegiatan: nama_kegiatan,
+            deskripsi: deskripsi,
+            timestamp: moment().format(),
         };
 
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
-        const idTx = ctx.stub.getTxID()
-        return 'Pendaftaran telah berhasil dilakukan, ID Transaksi: ' + idTx;
+        const idTrx = ctx.stub.getTxID()
+        return {"status":"success","idTrx":idTrx,"message":`Upload Kegiatan Berhasil`}
     }
 
     // ReadAsset returns the asset stored in the world state with given id.
@@ -45,7 +46,7 @@ export class activityContract extends Contract {
 
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, id_mitra: string, nim: string, file: string, program: string, persetujuan: string): Promise<String> {
+    public async UpdateAsset(ctx: Context, id: string, id_pendaftaran: string, nim: string, nama_kegiatan: string, deskripsi: string, timestamp: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
@@ -53,18 +54,18 @@ export class activityContract extends Contract {
 
         // overwriting original asset with new asset
         const updatedAsset: Registry = {
-            ID: id,
-            IDMitra: id_mitra,
-            NIM: nim,
-            File: file,
-            Program: program,
-            Persetujuan: persetujuan,
+            id: id,
+            pendaftaranId: id_pendaftaran,
+            nim: nim,
+            nama_kegiatan: nama_kegiatan,
+            deskripsi: deskripsi,
+            timestamp: timestamp,
         };
 
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
         const idTrx = ctx.stub.getTxID();
-        return 'Ubah data pendaftaran telah berhasil diubah, ID Transaksi: ' + idTrx;
+        return {"status":"success","idTrx":idTrx,"message":`Update Kegiatan Berhasil`}
     }
 
     // DeleteAsset deletes an given asset from the world state.

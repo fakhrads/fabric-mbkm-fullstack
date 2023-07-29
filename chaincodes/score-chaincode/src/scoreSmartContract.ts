@@ -12,7 +12,7 @@ export class AssetTransferContract extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, nilai: string): Promise<String> {
+    public async CreateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, nilai: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
@@ -27,8 +27,8 @@ export class AssetTransferContract extends Contract {
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
-        const idTx = ctx.stub.getTxID()
-        return 'Data nilai telah berhasil ditambah, ID Transaksi: ' + idTx;
+        const idTrx = ctx.stub.getTxID()
+        return {"status":"success","idTrx":idTrx,"message":`Upload Nilai Berhasil`}
     }
 
     // ReadAsset returns the asset stored in the world state with given id.
@@ -43,7 +43,7 @@ export class AssetTransferContract extends Contract {
 
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, nilai: string): Promise<String> {
+    public async UpdateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, nilai: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
@@ -60,7 +60,7 @@ export class AssetTransferContract extends Contract {
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
         const idTrx = ctx.stub.getTxID();
-        return 'Ubah data nilai telah berhasil diubah, ID Transaksi: ' + idTrx;
+        return {"status":"success","idTrx":idTrx,"message":`Update Nilai Berhasil`}
     }
 
     // DeleteAsset deletes an given asset from the world state.

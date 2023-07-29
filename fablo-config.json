@@ -4,9 +4,6 @@
     "fabricVersion": "2.5.3",
     "tls": false,
     "peerDevMode": false,
-    "monitoring": {
-      "loglevel": "debug"
-    },
     "tools": {
       "explorer": true
     }
@@ -31,6 +28,9 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
+      },
+      "tools": {
+        "fabloRest": true
       }
     },
     {
@@ -39,8 +39,11 @@
         "domain": "direktorat.unikom.ac.id"
       },
       "peer": {
-        "instances": 2,
+        "instances": 1,
         "db": "CouchDb"
+      },
+      "tools": {
+        "fabloRest": true
       }
     },
     {
@@ -51,6 +54,9 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
+      },
+      "tools": {
+        "fabloRest": true
       }
     },
     {
@@ -76,8 +82,7 @@
         "db": "CouchDb"
       },
       "tools": {
-        "fabloRest": true,
-        "explorer": true
+        "fabloRest": true
       }
     },
     {
@@ -105,7 +110,7 @@
           ]
         },
         {
-          "name": "Prodi",
+          "name": "ProgramStudi",
           "peers": [
             "peer0"
           ]
@@ -149,6 +154,12 @@
           "peers": [
             "peer0"
           ]
+        },
+        {
+          "name": "Mitra",
+          "peers": [
+            "peer0"
+          ]
         }
       ]
     },
@@ -184,6 +195,12 @@
           "peers": [
             "peer0"
           ]
+        },
+        {
+          "name": "Mitra",
+          "peers": [
+            "peer0"
+          ]
         }
       ]
     },
@@ -204,6 +221,12 @@
         },
         {
           "name": "ProgramStudi",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "Mitra",
           "peers": [
             "peer0"
           ]

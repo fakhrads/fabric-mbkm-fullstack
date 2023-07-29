@@ -7,20 +7,20 @@ import {Object, Property} from 'fabric-contract-api';
 @Object()
 export class SuratProdi {
     @Property()
-    public ID: string;
+    public id: string;
 
     @Property()
-    public IDMitra: string;
+    public nim: string;
 
     @Property()
-    public NIM: string;
+    public file: string;
 
     @Property()
-    public File: string;
+    public program: string;
 
     @Property()
-    public Program: string;
+    public persetujuan: string;
 
     @Property()
-    public Persetujuan: string;
+    public timestamp: string;
 }

@@ -1,0 +1,1 @@
+console.log(new Date("Fri, 06 Jul 2001 03:00:00 GMT"))

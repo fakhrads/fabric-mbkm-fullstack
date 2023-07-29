@@ -6,21 +6,19 @@ import {Object, Property} from 'fabric-contract-api';
 
 @Object()
 export class Score {
-    @Property()
-    public docType?: string;
 
     @Property()
-    public ID: string;
+    public id: string;
 
     @Property()
-    public IDMitra: string;
+    public mitraId: string;
 
     @Property()
-    public IDPendaftaran: string;
+    public pendaftaranId: string;
 
     @Property()
-    public NIM: string;
+    public nim: string;
 
     @Property()
-    public File: string;
+    public file: string;
 }

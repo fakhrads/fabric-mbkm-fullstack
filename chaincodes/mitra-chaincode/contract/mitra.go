@@ -15,10 +15,10 @@ type SmartContract struct {
 
 // Asset describes basic details of what makes up a simple asset
 type Asset struct {
-	ID          string `json:"ID"`
-	NamaMitra   string `json:"nama_mitra"`
-	LokasiMitra string `json:"lokasi_mitra"`
-	Owner       string `json:"owner"`
+	id           string `json:"id"`
+	nama_mitra   string `json:"nama_mitra"`
+	lokasi_mitra string `json:"lokasi_mitra"`
+	owner        string `json:"owner"`
 }
 
 // CreateAsset issues a new asset to the world state with given details.
@@ -48,10 +48,10 @@ func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface,
 	}
 
 	asset := Asset{
-		ID:          id,
-		NamaMitra:   nama_mitra,
-		LokasiMitra: lokasi_mitra,
-		Owner:       clientID,
+		id:           id,
+		nama_mitra:   nama_mitra,
+		lokasi_mitra: lokasi_mitra,
+		owner:        clientID,
 	}
 	assetJSON, err := json.Marshal(asset)
 	if err != nil {
@@ -74,12 +74,12 @@ func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface,
 		return err
 	}
 
-	if clientID != asset.Owner {
+	if clientID != asset.owner {
 		return fmt.Errorf("submitting client not authorized to update asset, does not own asset")
 	}
 
-	asset.NamaMitra = nama_mitra
-	asset.LokasiMitra = lokasi_mitra
+	asset.nama_mitra = nama_mitra
+	asset.lokasi_mitra = lokasi_mitra
 
 	assetJSON, err := json.Marshal(asset)
 	if err != nil {
@@ -102,7 +102,7 @@ func (s *SmartContract) DeleteAsset(ctx contractapi.TransactionContextInterface,
 		return err
 	}
 
-	if clientID != asset.Owner {
+	if clientID != asset.owner {
 		return fmt.Errorf("submitting client not authorized to update asset, does not own asset")
 	}
 
@@ -122,11 +122,11 @@ func (s *SmartContract) TransferAsset(ctx contractapi.TransactionContextInterfac
 		return err
 	}
 
-	if clientID != asset.Owner {
+	if clientID != asset.owner {
 		return fmt.Errorf("submitting client not authorized to update asset, does not own asset")
 	}
 
-	asset.Owner = newOwner
+	asset.owner = newOwner
 	assetJSON, err := json.Marshal(asset)
 	if err != nil {
 		return err
