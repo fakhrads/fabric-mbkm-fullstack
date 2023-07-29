@@ -28,9 +28,6 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
-      },
-      "tools": {
-        "fabloRest": true
       }
     },
     {
@@ -41,9 +38,6 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
-      },
-      "tools": {
-        "fabloRest": true
       }
     },
     {
@@ -54,9 +48,6 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
-      },
-      "tools": {
-        "fabloRest": true
       }
     },
     {
@@ -67,9 +58,6 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
-      },
-      "tools": {
-        "fabloRest": true
       }
     },
     {
@@ -80,9 +68,6 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
-      },
-      "tools": {
-        "fabloRest": true
       }
     },
     {
@@ -93,18 +78,15 @@
       "peer": {
         "instances": 1,
         "db": "CouchDb"
-      },
-      "tools": {
-        "fabloRest": true
       }
     }
   ],
   "channels": [
     {
-      "name": "prodi",
+      "name": "prodi-channel",
       "orgs": [
         {
-          "name": "Mahasiswa",
+          "name": "WakilRektor",
           "peers": [
             "peer0"
           ]
@@ -114,14 +96,9 @@
           "peers": [
             "peer0"
           ]
-        }
-      ]
-    },
-    {
-      "name": "mitra",
-      "orgs": [
+        },
         {
-          "name": "Mitra",
+          "name": "Mahasiswa",
           "peers": [
             "peer0"
           ]
@@ -135,7 +112,7 @@
       ]
     },
     {
-      "name": "pendaftaran",
+      "name": "pendaftaran-channel",
       "orgs": [
         {
           "name": "WakilRektor",
@@ -164,7 +141,42 @@
       ]
     },
     {
-      "name": "nilai",
+      "name": "kegiatan-channel",
+      "orgs": [
+        {
+          "name": "WakilRektor",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "Mahasiswa",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "PIC",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "ProgramStudi",
+          "peers": [
+            "peer0"
+          ]
+        },
+        {
+          "name": "Mitra",
+          "peers": [
+            "peer0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nilai-channel",
       "orgs": [
         {
           "name": "WakilRektor",
@@ -203,72 +215,36 @@
           ]
         }
       ]
-    },
-    {
-      "name": "kegiatan",
-      "orgs": [
-        {
-          "name": "Mahasiswa",
-          "peers": [
-            "peer0"
-          ]
-        },
-        {
-          "name": "PIC",
-          "peers": [
-            "peer0"
-          ]
-        },
-        {
-          "name": "ProgramStudi",
-          "peers": [
-            "peer0"
-          ]
-        },
-        {
-          "name": "Mitra",
-          "peers": [
-            "peer0"
-          ]
-        }
-      ]
     }
   ],
   "chaincodes": [
     {
-      "name": "mitra-chaincode",
-      "version": "0.0.1",
-      "lang": "golang",
-      "channel": "mitra",
-      "directory": "./chaincodes/mitra-chaincode"
-    },
-    {
       "name": "registry-chaincode",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "lang": "node",
-      "channel": "pendaftaran",
+      "channel": "pendaftaran-channel",
       "directory": "./chaincodes/registry-chaincode"
     },
     {
-      "name": "score-chaincode",
-      "version": "0.0.1",
+      "name": "sr-chaincode",
+      "version": "0.0.2",
       "lang": "node",
-      "channel": "nilai",
-      "directory": "./chaincodes/score-chaincode"
+      "channel": "prodi-channel",
+      "directory": "./chaincodes/sr-chaincode"
     },
     {
       "name": "activity-chaincode",
       "version": "0.0.1",
       "lang": "node",
-      "channel": "kegiatan",
+      "channel": "kegiatan-channel",
       "directory": "./chaincodes/activity-chaincode"
     },
     {
-      "name": "sr-chaincode",
+      "name": "score-chaincode",
       "version": "0.0.1",
       "lang": "node",
-      "channel": "prodi",
-      "directory": "./chaincodes/sr-chaincode"
+      "channel": "nilai-channel",
+      "directory": "./chaincodes/score-chaincode"
     }
   ]
 }

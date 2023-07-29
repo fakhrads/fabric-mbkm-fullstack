@@ -2,8 +2,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PembuatanSuratProdi } from './pembuatanSuratProdi';
+import { AssetTransferContract } from './suratProdiContract';
 
-export { PembuatanSuratProdi } from './pembuatanSuratProdi';
+export { AssetTransferContract } from './suratProdiContract';
 
-export const contracts: any[] = [PembuatanSuratProdi]; // eslint-disable-line @typescript-eslint/no-explicit-any
+export const contracts: any[] = [AssetTransferContract]; // eslint-disable-line @typescript-eslint/no-explicit-any

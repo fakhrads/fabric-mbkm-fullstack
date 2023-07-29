@@ -31,7 +31,7 @@ export const authenticateApiKey = (
   passport.authenticate(
     'headerapikey',
     { session: false },
-    (err, user, _info) => {
+    (err: any, user: any, _info: any) => {
       if (err) return next(err);
       if (!user)
         return res.status(UNAUTHORIZED).json({

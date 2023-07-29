@@ -5,10 +5,11 @@
 import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api';
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
-import {SuratProdi} from './suratProdi';
-const moment = require('moment');
-@Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
-export class PembuatanSuratProdi extends Contract {
+import {Registry} from './SuratProdi';
+var moment = require('moment');
+
+@Info({title: 'SuratProdi', description: 'Smart contract for trading assets'})
+export class AssetTransferContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
@@ -18,7 +19,7 @@ export class PembuatanSuratProdi extends Contract {
             throw new Error(`The asset ${id} already exists`);
         }
 
-        const asset: SuratProdi = {
+        const asset: Registry = {
             id: id,
             nim: nim,
             file: file,
@@ -30,7 +31,7 @@ export class PembuatanSuratProdi extends Contract {
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
         const idTrx = ctx.stub.getTxID()
-        return {"status":"success","idTrx":idTrx,"message":`Pembuatan Surat Prodi Berhasil`}
+        return {"status":"success","idTrx":idTrx,"message":`Pendaftaran Berhasil`}
     }
 
     // ReadAsset returns the asset stored in the world state with given id.
@@ -52,7 +53,7 @@ export class PembuatanSuratProdi extends Contract {
         }
 
         // overwriting original asset with new asset
-        const updatedAsset: SuratProdi = {
+        const updatedAsset: Registry = {
             id: id,
             nim: nim,
             file: file,
@@ -64,8 +65,7 @@ export class PembuatanSuratProdi extends Contract {
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
         const idTrx = ctx.stub.getTxID();
-        return {"status":"success","idTrx":idTrx,"message":`Pembuatan Surat Prodi Berhasil di Update`}
-
+        return {"status":"success","idTrx":idTrx,"message":`Pendaftaran Berhasil`}
     }
 
     // DeleteAsset deletes an given asset from the world state.

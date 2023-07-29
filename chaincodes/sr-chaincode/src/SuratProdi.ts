@@ -5,7 +5,7 @@
 import {Object, Property} from 'fabric-contract-api';
 
 @Object()
-export class SuratProdi {
+export class Registry {
     @Property()
     public id: string;
 
