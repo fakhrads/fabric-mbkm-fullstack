@@ -1,3 +1,5 @@
+`Disclaimer! All credits are for the original author of this project. I just made some changes to make it work with the new version of Hyperledger Fabric.`
+
 ## ENV
 
 Conteudo do arquivo

@@ -6,24 +6,33 @@ import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
 import { Score } from './score';
+const moment = require('moment');
+
+interface QueryString {
+  selector: {
+    nim: string;
+  };
+}
 
 @Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
 export class AssetTransferContract extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, nilai: string): Promise<any> {
+    public async CreateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, file: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
         }
 
-        const asset = {
-            ID: id,
-            IDMitra: id_mitra,
-            IDPendaftaran: id_pendaftaran,
-            NIM: nim,
-            Nilai: nilai,
+        const asset: Score = {
+            id: id,
+            mitraId: id_mitra,
+            pendaftaranId: id_pendaftaran,
+            nim: nim,
+            file: file,
+            created_at: moment().format(),
+            updated_at: moment().format(),
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(asset))));
@@ -41,21 +50,67 @@ export class AssetTransferContract extends Contract {
         return assetJSON.toString();
     }
 
+    @Transaction(false)
+    public async QueryAsset(ctx: Context, nim: string): Promise<any> {
+
+        try {
+
+            const queryString: QueryString = {
+              selector: {
+                nim: nim,
+              },
+            };
+
+
+            let iterator =  await ctx.stub.getQueryResult(JSON.stringify(queryString));
+            let data = await this.filterQueryData(iterator);
+            
+            return JSON.parse(data);
+        } catch (error) {
+            console.log("error", error);
+            return error;
+        }
+    }
+
+    async filterQueryData(iterator){
+        const allResults = [];
+        while (true) {
+            const res = await iterator.next();
+
+            if (res.value && res.value.value.toString()) {
+                const Key = res.value.key;
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    Record = res.value.value.toString('utf8');
+                }
+                allResults.push({ Key, Record });
+            }
+            if (res.done) {
+                await iterator.close();
+                return JSON.stringify(allResults);
+            }
+        }
+    }
+
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, nilai: string): Promise<any> {
+    public async UpdateAsset(ctx: Context, id: string, id_mitra: string, id_pendaftaran:string, nim: string, file: string, created_at: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
         }
 
         // overwriting original asset with new asset
-        const updatedAsset = {
-            ID: id,
-            IDMitra: id_mitra,
-            IDPendaftaran: id_pendaftaran,
-            NIM: nim,
-            Nilai: nilai,
+        const updatedAsset: Score = {
+            id: id,
+            mitraId: id_mitra,
+            pendaftaranId: id_pendaftaran,
+            nim: nim,
+            file: file,
+            created_at: created_at,
+            updated_at: moment().format(),
         };
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));

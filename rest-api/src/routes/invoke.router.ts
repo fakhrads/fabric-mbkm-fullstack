@@ -33,9 +33,9 @@ invokeRouter.put('/:typeTransaction/:channelName/:chaincodeName/:transactionName
         if (data.length > 0) {
             assets = JSON.parse(data.toString());
         }
-        return res.json(assets);
+        return res.status(200).json(assets);
     } catch (err: any) {
-        return res.json({ "error": err.message });
+        return res.status(500).json({ "error": err.message });
     }
 
 });

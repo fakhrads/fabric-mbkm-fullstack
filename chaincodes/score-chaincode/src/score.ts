@@ -21,4 +21,10 @@ export class Score {
 
     @Property()
     public file: string;
+
+    @Property()
+    public created_at: string;
+
+    @Property()
+    public updated_at: string;
 }

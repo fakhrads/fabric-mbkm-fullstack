@@ -8,12 +8,18 @@ import sortKeysRecursive from 'sort-keys-recursive';
 import {Registry} from './activity';
 const moment = require('moment');
 
+interface QueryString {
+  selector: {
+    nim: string;
+  };
+}
+
 @Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
 export class activityContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, id_pendaftaran: string, nim: string, nama_kegiatan: string, deskripsi: string, timestamp: string): Promise<any> {
+    public async CreateAsset(ctx: Context, id: string, id_pendaftaran: string, nim: string, file: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
@@ -23,9 +29,9 @@ export class activityContract extends Contract {
             id: id,
             pendaftaranId: id_pendaftaran,
             nim: nim,
-            nama_kegiatan: nama_kegiatan,
-            deskripsi: deskripsi,
-            timestamp: moment().format(),
+            file: file,
+            created_at: moment().format(),
+            updated_at: moment().format(),
         };
 
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
@@ -44,9 +50,52 @@ export class activityContract extends Contract {
         return assetJSON.toString();
     }
 
+    @Transaction(false)
+    public async QueryAsset(ctx: Context, nim: string): Promise<any> {
+
+        try {
+
+            const queryString: QueryString = {
+              selector: {
+                nim: nim,
+              },
+            };
+
+
+            let iterator =  await ctx.stub.getQueryResult(JSON.stringify(queryString));
+            let data = await this.filterQueryData(iterator);
+            
+            return JSON.parse(data);
+        } catch (error) {
+            console.log("error", error);
+            return error;
+        }
+    }
+
+    async filterQueryData(iterator){
+        const allResults = [];
+        while (true) {
+            const res = await iterator.next();
+
+            if (res.value && res.value.value.toString()) {
+                const Key = res.value.key;
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    Record = res.value.value.toString('utf8');
+                }
+                allResults.push({ Key, Record });
+            }
+            if (res.done) {
+                await iterator.close();
+                return JSON.stringify(allResults);
+            }
+        }
+    }
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, id_pendaftaran: string, nim: string, nama_kegiatan: string, deskripsi: string, timestamp: string): Promise<any> {
+    public async UpdateAsset(ctx: Context, id: string, id_pendaftaran: string, nim: string, file: string, created_at: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
@@ -57,9 +106,9 @@ export class activityContract extends Contract {
             id: id,
             pendaftaranId: id_pendaftaran,
             nim: nim,
-            nama_kegiatan: nama_kegiatan,
-            deskripsi: deskripsi,
-            timestamp: timestamp,
+            file: file,
+            created_at: created_at,
+            updated_at: moment().format(),
         };
 
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'

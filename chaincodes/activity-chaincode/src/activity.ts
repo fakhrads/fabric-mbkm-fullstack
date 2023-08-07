@@ -16,12 +16,12 @@ export class Registry {
     public nim: string;
 
     @Property()
-    public nama_kegiatan: string;
+    public file: string;
 
     @Property()
-    public deskripsi: string;
+    public created_at: string;
 
     @Property()
-    public timestamp: string;
+    public updated_at: string;
 
 }
