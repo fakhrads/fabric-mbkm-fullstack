@@ -13,7 +13,7 @@ export class Registry {
     public nim: string;
 
     @Property()
-    public file: string;
+    public transkrip: string;
 
     @Property()
     public program: string;
@@ -22,5 +22,11 @@ export class Registry {
     public persetujuan: string;
 
     @Property()
-    public timestamp: string;
+    public selesai: string;
+
+    @Property()
+    public created_at: string;
+
+    @Property()
+    public updated_at: string;
 }
