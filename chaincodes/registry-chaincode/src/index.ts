@@ -2,8 +2,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AssetTransferContract } from './registrySmartContract';
+import { RegistrySmartContract } from './registrySmartContract';
 
-export { AssetTransferContract } from './registrySmartContract';
+export { RegistrySmartContract } from './registrySmartContract';
 
-export const contracts: any[] = [AssetTransferContract]; // eslint-disable-line @typescript-eslint/no-explicit-any
+export const contracts: any[] = [RegistrySmartContract]; // eslint-disable-line @typescript-eslint/no-explicit-any

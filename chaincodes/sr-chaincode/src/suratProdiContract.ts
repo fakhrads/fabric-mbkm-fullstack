@@ -14,8 +14,8 @@ interface QueryString {
   };
 }
   
-@Info({title: 'SuratProdi', description: 'Smart contract for trading assets'})
-export class AssetTransferContract extends Contract {
+@Info({title: 'PersetujuanProdi', description: 'Smart contract for persetujuan prodi'})
+export class PersetujuanProdiSmartContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()

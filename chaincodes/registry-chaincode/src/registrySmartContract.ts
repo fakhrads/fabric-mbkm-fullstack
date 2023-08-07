@@ -13,8 +13,8 @@ interface QueryString {
   };
 }
 
-@Info({title: 'AssetTransfer', description: 'Smart contract for trading assets'})
-export class AssetTransferContract extends Contract {
+@Info({title: 'RegistrySmartContract', description: 'Smart contract for registry MBKM'})
+export class RegistrySmartContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
