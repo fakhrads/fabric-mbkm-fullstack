@@ -220,28 +220,28 @@
   "chaincodes": [
     {
       "name": "registry-chaincode",
-      "version": "0.0.2",
+      "version": "1.0.4",
       "lang": "node",
       "channel": "pendaftaran-channel",
       "directory": "./chaincodes/registry-chaincode"
     },
     {
       "name": "sr-chaincode",
-      "version": "0.0.2",
+      "version": "1.0.3",
       "lang": "node",
       "channel": "prodi-channel",
       "directory": "./chaincodes/sr-chaincode"
     },
     {
       "name": "activity-chaincode",
-      "version": "0.0.1",
+      "version": "1.0.0",
       "lang": "node",
       "channel": "kegiatan-channel",
       "directory": "./chaincodes/activity-chaincode"
     },
     {
       "name": "score-chaincode",
-      "version": "0.0.1",
+      "version": "1.0.0",
       "lang": "node",
       "channel": "nilai-channel",
       "directory": "./chaincodes/score-chaincode"
