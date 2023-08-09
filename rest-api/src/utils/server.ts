@@ -18,8 +18,9 @@ export const createServer = async (): Promise<Application> => {
         standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
         legacyHeaders: false, // Disable the `X-RateLimit-*` headers
         message: "Terlalu banyak request untuk IP ini, silahkan coba lagi dalam 5 menit.",
-    })
-    app.use(limiter)
+    });
+    app.use(limiter);
+    app.disable('x-powered-by');
     app.use(
         pinoMiddleware({
             logger,
