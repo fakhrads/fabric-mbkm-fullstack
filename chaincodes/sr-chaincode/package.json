@@ -1,7 +1,7 @@
 {
-    "name": "sr-chaincode",
-    "version": "1.0.4",
-    "description": "Registry chaincode for manage MBKM register",
+    "name": "prodi-chaincode",
+    "version": "1.1.5",
+    "description": "Registry chaincode for manage MBKM prodi permission",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "engines": {

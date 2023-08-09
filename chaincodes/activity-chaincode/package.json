@@ -1,7 +1,7 @@
 {
-    "name": "registry-chaincode",
-    "version": "1.0.2",
-    "description": "Registry chaincode for manage MBKM register",
+    "name": "kegiatan-chaincode",
+    "version": "1.1.0",
+    "description": "Registry chaincode for manage MBKM activity",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "engines": {
