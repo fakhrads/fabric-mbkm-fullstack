@@ -5,18 +5,12 @@
 import {Object, Property} from 'fabric-contract-api';
 
 @Object()
-export class Registry {
+export class Persetujuan {
     @Property()
     public id: string;
 
     @Property()
     public nim: string;
-
-    @Property()
-    public transkrip: string;
-
-    @Property()
-    public program: string;
 
     @Property()
     public persetujuan: string;

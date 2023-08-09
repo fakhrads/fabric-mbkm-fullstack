@@ -5,7 +5,7 @@
 import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api';
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
-import {Registry} from './activity';
+import { Kegiatan } from './activity';
 const moment = require('moment');
 
 interface QueryString {
@@ -15,7 +15,7 @@ interface QueryString {
 }
 
 @Info({title: 'ActivityContract', description: 'Smart contract for activity MBKM'})
-export class activityContract extends Contract {
+export class KegiatanContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
@@ -25,7 +25,7 @@ export class activityContract extends Contract {
             throw new Error(`The asset ${id} already exists`);
         }
 
-        const asset: Registry = {
+        const asset: Kegiatan = {
             id: id,
             pendaftaranId: id_pendaftaran,
             nim: nim,
@@ -102,7 +102,7 @@ export class activityContract extends Contract {
         }
 
         // overwriting original asset with new asset
-        const updatedAsset: Registry = {
+        const updatedAsset: Kegiatan = {
             id: id,
             pendaftaranId: id_pendaftaran,
             nim: nim,

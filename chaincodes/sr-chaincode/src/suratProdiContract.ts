@@ -5,7 +5,7 @@
 import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api';
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
-import {Registry} from './SuratProdi';
+import { Persetujuan } from './Persetujuan';
 var moment = require('moment');
 
 interface QueryString {
@@ -14,22 +14,20 @@ interface QueryString {
   };
 }
   
-@Info({title: 'PersetujuanProdi', description: 'Smart contract for persetujuan prodi'})
-export class PersetujuanProdiSmartContract extends Contract {
+@Info({title: 'ProdiSmartContract', description: 'Smart contract for persetujuan prodi'})
+export class ProdiSmartContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, nim: string, transkrip: string, program: string, persetujuan: string): Promise<any> {
+    public async CreateAsset(ctx: Context, id: string, nim: string, persetujuan: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
         }
 
-        const asset: Registry = {
+        const asset: Persetujuan = {
             id: id,
             nim: nim,
-            transkrip: transkrip,
-            program: program,
             persetujuan: persetujuan,
             selesai: "false",
             created_at: moment().format(),
@@ -97,18 +95,16 @@ export class PersetujuanProdiSmartContract extends Contract {
     }
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, nim: string, transkrip: string, program: string, persetujuan: string, selesai: string, created_at: string): Promise<any> {
+    public async UpdateAsset(ctx: Context, id: string, nim: string, persetujuan: string, selesai: string, created_at: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
         }
 
         // overwriting original asset with new asset
-        const updatedAsset: Registry = {
+        const updatedAsset: Persetujuan = {
             id: id,
             nim: nim,
-            transkrip: transkrip,
-            program: program,
             persetujuan: persetujuan,
             selesai: selesai,
             created_at: created_at,
@@ -129,6 +125,42 @@ export class PersetujuanProdiSmartContract extends Contract {
             throw new Error(`The asset ${id} does not exist`);
         }
         return ctx.stub.deleteState(id);
+    }
+    
+    @Transaction()
+    async UpdateStatusMBKM(ctx: Context, assetID: string, newStatus: string): Promise<any> {
+        const exists = await this.AssetExists(ctx, assetID);
+        if (!exists) {
+            throw new Error(`Aset dengan ID ${assetID} tidak ditemukan.`);
+        }
+
+        const assetBuffer = await ctx.stub.getState(assetID);
+        const asset = JSON.parse(assetBuffer.toString());
+
+        asset.selesai = newStatus;
+        asset.updated_at = moment().format();
+
+        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
+        const idTrx = ctx.stub.getTxID();
+        return {"status":"success","idTrx":idTrx,"message":`Update Status Pendaftaran & File IPFS Berhasil`}
+    }
+
+    @Transaction()
+    async UpdatePersetujuan(ctx: Context, assetID: string, newStatus: string): Promise<any> {
+        const exists = await this.AssetExists(ctx, assetID);
+        if (!exists) {
+            throw new Error(`Aset dengan ID ${assetID} tidak ditemukan.`);
+        }
+
+        const assetBuffer = await ctx.stub.getState(assetID);
+        const asset = JSON.parse(assetBuffer.toString());
+
+        asset.persetujuan = newStatus;
+        asset.updated_at = moment().format();
+
+        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
+        const idTrx = ctx.stub.getTxID();
+        return {"status":"success","idTrx":idTrx,"message":`Update Status Persetujuan Berhasil`}
     }
 
     // AssetExists returns true when asset with given ID exists in world state.

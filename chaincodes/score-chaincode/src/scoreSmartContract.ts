@@ -5,7 +5,7 @@
 import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api';
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
-import { Score } from './score';
+import { Nilai } from './score';
 const moment = require('moment');
 
 interface QueryString {
@@ -14,8 +14,13 @@ interface QueryString {
   };
 }
 
+interface QueryByMitra {
+  selector: {
+    mitraId: string;
+  };
+}
 @Info({title: 'ScoreSmartContract', description: 'Smart contract for score MBKM'})
-export class ScoreSmartContract extends Contract {
+export class NilaiSmartContract extends Contract {
 
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
@@ -25,7 +30,7 @@ export class ScoreSmartContract extends Contract {
             throw new Error(`The asset ${id} already exists`);
         }
 
-        const asset: Score = {
+        const asset: Nilai = {
             id: id,
             mitraId: id_mitra,
             pendaftaranId: id_pendaftaran,
@@ -48,6 +53,28 @@ export class ScoreSmartContract extends Contract {
             throw new Error(`The asset ${id} does not exist`);
         }
         return assetJSON.toString();
+    }
+
+    @Transaction(false)
+    public async QueryByMitra(ctx: Context, id_mitra: string): Promise<any> {
+
+        try {
+
+            const queryString: QueryByMitra = {
+              selector: {
+                mitraId: id_mitra,
+              },
+            };
+
+
+            let iterator =  await ctx.stub.getQueryResult(JSON.stringify(queryString));
+            let data = await this.filterQueryData(iterator);
+            
+            return JSON.parse(data);
+        } catch (error) {
+            console.log("error", error);
+            return error;
+        }
     }
 
     @Transaction(false)
@@ -103,7 +130,7 @@ export class ScoreSmartContract extends Contract {
         }
 
         // overwriting original asset with new asset
-        const updatedAsset: Score = {
+        const updatedAsset: Nilai = {
             id: id,
             mitraId: id_mitra,
             pendaftaranId: id_pendaftaran,

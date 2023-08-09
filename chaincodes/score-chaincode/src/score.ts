@@ -5,7 +5,7 @@
 import {Object, Property} from 'fabric-contract-api';
 
 @Object()
-export class Score {
+export class Nilai {
 
     @Property()
     public id: string;

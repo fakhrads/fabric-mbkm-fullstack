@@ -163,6 +163,24 @@ export class PendaftaranSmartContract extends Contract {
     }
 
     @Transaction()
+    async UpdateStatusMBKM(ctx: Context, assetID: string, newStatus: string): Promise<any> {
+        const exists = await this.AssetExists(ctx, assetID);
+        if (!exists) {
+            throw new Error(`Aset dengan ID ${assetID} tidak ditemukan.`);
+        }
+
+        const assetBuffer = await ctx.stub.getState(assetID);
+        const asset = JSON.parse(assetBuffer.toString());
+
+        asset.selesai = newStatus;
+        asset.updated_at = moment().format();
+
+        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
+        const idTrx = ctx.stub.getTxID();
+        return {"status":"success","idTrx":idTrx,"message":`Update Status Pendaftaran & File IPFS Berhasil`}
+    }
+
+    @Transaction()
     async UpdateStatus(ctx: Context, assetID: string, newStatus: string, file: string): Promise<any> {
         const exists = await this.AssetExists(ctx, assetID);
         if (!exists) {
