@@ -13,7 +13,7 @@ const { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } = StatusCodes;
 export const createServer = async (): Promise<Application> => {
     const app = express();
     const limiter = rateLimit({
-        windowMs: 5 * 60 * 1000, // 5 minutes
+        windowMs: 15 * 60 * 1000, // 5 minutes
         max: 1200, // Limit each IP to 1200 requests per `window` (here, per 15 minutes)
         standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
         legacyHeaders: false, // Disable the `X-RateLimit-*` headers
