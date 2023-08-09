@@ -108,6 +108,12 @@
           "peers": [
             "peer0"
           ]
+        },
+        {
+          "name": "Mitra",
+          "peers": [
+            "peer0"
+          ]
         }
       ]
     },
@@ -219,28 +225,28 @@
   ],
   "chaincodes": [
     {
-      "name": "registry-chaincode",
+      "name": "pendaftaran-chaincode",
       "version": "1.0.4",
       "lang": "node",
       "channel": "pendaftaran-channel",
       "directory": "./chaincodes/registry-chaincode"
     },
     {
-      "name": "sr-chaincode",
+      "name": "prodi-chaincode",
       "version": "1.0.3",
       "lang": "node",
       "channel": "prodi-channel",
       "directory": "./chaincodes/sr-chaincode"
     },
     {
-      "name": "activity-chaincode",
+      "name": "kegiatan-chaincode",
       "version": "1.0.0",
       "lang": "node",
       "channel": "kegiatan-channel",
       "directory": "./chaincodes/activity-chaincode"
     },
     {
-      "name": "score-chaincode",
+      "name": "nilai-chaincode",
       "version": "1.0.0",
       "lang": "node",
       "channel": "nilai-channel",
