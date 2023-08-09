@@ -126,7 +126,7 @@ export class ProdiSmartContract extends Contract {
         }
         return ctx.stub.deleteState(id);
     }
-    
+
     @Transaction()
     async UpdateStatusMBKM(ctx: Context, assetID: string, newStatus: string): Promise<any> {
         const exists = await this.AssetExists(ctx, assetID);
@@ -138,7 +138,6 @@ export class ProdiSmartContract extends Contract {
         const asset = JSON.parse(assetBuffer.toString());
 
         asset.selesai = newStatus;
-        asset.updated_at = moment().format();
 
         await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
         const idTrx = ctx.stub.getTxID();

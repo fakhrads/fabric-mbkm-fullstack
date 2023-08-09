@@ -137,7 +137,6 @@ export class PendaftaranSmartContract extends Contract {
         const asset = JSON.parse(assetBuffer.toString());
 
         asset.mitraId = id_mitra;
-        asset.updated_at = moment().format();
 
         await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
         const idTrx = ctx.stub.getTxID();
@@ -155,7 +154,6 @@ export class PendaftaranSmartContract extends Contract {
         const asset = JSON.parse(assetBuffer.toString());
 
         asset.selesai_laporan = newStatus;
-        asset.updated_at = moment().format();
 
         await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
         const idTrx = ctx.stub.getTxID();
@@ -173,7 +171,6 @@ export class PendaftaranSmartContract extends Contract {
         const asset = JSON.parse(assetBuffer.toString());
 
         asset.selesai = newStatus;
-        asset.updated_at = moment().format();
 
         await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
         const idTrx = ctx.stub.getTxID();
