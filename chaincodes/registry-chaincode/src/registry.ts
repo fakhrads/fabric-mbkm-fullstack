@@ -5,7 +5,7 @@
 import {Object, Property} from 'fabric-contract-api';
 
 @Object()
-export class Registry {
+export class Pendaftaran {
     @Property()
     public id: string;
 
@@ -13,19 +13,25 @@ export class Registry {
     public mitraId: string;
 
     @Property()
+    public persetujuanId: string;
+
+    @Property()
     public nim: string;
 
     @Property()
-    public file_sr: string;
+    public nama: string;
 
     @Property()
-    public file_sptjm: string;
+    public file: string;
 
     @Property()
     public program: string;
 
     @Property()
     public persetujuan: string;
+
+    @Property()
+    public selesai_laporan: string;
 
     @Property()
     public selesai: string;

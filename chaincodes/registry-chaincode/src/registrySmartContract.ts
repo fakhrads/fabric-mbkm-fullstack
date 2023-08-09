@@ -5,7 +5,7 @@
 import {Context, Contract, Info, Returns, Transaction} from 'fabric-contract-api';
 import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
-import {Registry} from './registry';
+import { Pendaftaran } from './registry';
 var moment = require('moment');
 interface QueryString {
   selector: {
@@ -13,26 +13,33 @@ interface QueryString {
   };
 }
 
+interface QueryByMitra {
+  selector: {
+    mitraId: string;
+  };
+}
 @Info({title: 'RegistrySmartContract', description: 'Smart contract for registry MBKM'})
-export class RegistrySmartContract extends Contract {
+export class PendaftaranSmartContract extends Contract {
     
     // CreateAsset issues a new asset to the world state with given details.
     @Transaction()
-    public async CreateAsset(ctx: Context, id: string, id_mitra: string, nim: string, file_sr: string, file_sptjm: string, program: string, persetujuan: string): Promise<any> {
+    public async CreateAsset(ctx: Context, id: string, nim: string, nama: string, id_persetujuan_prodi: string, file: string, program: string, persetujuan: string): Promise<any> {
         const exists = await this.AssetExists(ctx, id);
         if (exists) {
             throw new Error(`The asset ${id} already exists`);
         }
 
-        const asset: Registry = {
+        const asset: Pendaftaran = {
             id: id,
-            mitraId: id_mitra,
+            mitraId: "",
+            persetujuanId: id_persetujuan_prodi,
             nim: nim,
-            file_sr: file_sr,
-            file_sptjm: file_sptjm,
+            nama: nama,
+            file: file,
             program: program,
             persetujuan: persetujuan,
             selesai: "false",
+            selesai_laporan: "false",
             created_at: moment().format(),
             updated_at: moment().format(),
         };
@@ -51,6 +58,28 @@ export class RegistrySmartContract extends Contract {
             throw new Error(`The asset ${id} does not exist`);
         }
         return assetJSON.toString();
+    }
+
+    @Transaction(false)
+    public async QueryByMitra(ctx: Context, id_mitra: string): Promise<any> {
+
+        try {
+
+            const queryString: QueryByMitra = {
+              selector: {
+                mitraId: id_mitra,
+              },
+            };
+
+
+            let iterator =  await ctx.stub.getQueryResult(JSON.stringify(queryString));
+            let data = await this.filterQueryData(iterator);
+            
+            return JSON.parse(data);
+        } catch (error) {
+            console.log("error", error);
+            return error;
+        }
     }
 
     @Transaction(false)
@@ -96,24 +125,83 @@ export class RegistrySmartContract extends Contract {
             }
         }
     }
+
+    @Transaction()
+    async UpdateMitra(ctx: Context, assetID: string, id_mitra: string): Promise<any> {
+        const exists = await this.AssetExists(ctx, assetID);
+        if (!exists) {
+            throw new Error(`Aset dengan ID ${assetID} tidak ditemukan.`);
+        }
+
+        const assetBuffer = await ctx.stub.getState(assetID);
+        const asset = JSON.parse(assetBuffer.toString());
+
+        asset.mitraId = id_mitra;
+        asset.updated_at = moment().format();
+
+        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
+        const idTrx = ctx.stub.getTxID();
+        return {"status":"success","idTrx":idTrx,"message":`Update Kolom Mitra Berhasil`}
+    }
+
+    @Transaction()
+    async UpdateStatusLaporan(ctx: Context, assetID: string, newStatus: string): Promise<any> {
+        const exists = await this.AssetExists(ctx, assetID);
+        if (!exists) {
+            throw new Error(`Aset dengan ID ${assetID} tidak ditemukan.`);
+        }
+
+        const assetBuffer = await ctx.stub.getState(assetID);
+        const asset = JSON.parse(assetBuffer.toString());
+
+        asset.selesai_laporan = newStatus;
+        asset.updated_at = moment().format();
+
+        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
+        const idTrx = ctx.stub.getTxID();
+        return {"status":"success","idTrx":idTrx,"message":`Update Status Laporan Berhasil`}
+    }
+
+    @Transaction()
+    async UpdateStatus(ctx: Context, assetID: string, newStatus: string, file: string): Promise<any> {
+        const exists = await this.AssetExists(ctx, assetID);
+        if (!exists) {
+            throw new Error(`Aset dengan ID ${assetID} tidak ditemukan.`);
+        }
+
+        const assetBuffer = await ctx.stub.getState(assetID);
+        const asset = JSON.parse(assetBuffer.toString());
+
+        asset.persetujuan = newStatus;
+        asset.file = file;
+        asset.updated_at = moment().format();
+
+        await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));
+        const idTrx = ctx.stub.getTxID();
+        return {"status":"success","idTrx":idTrx,"message":`Update Status Pendaftaran & File IPFS Berhasil`}
+    }
+
     // UpdateAsset updates an existing asset in the world state with provided parameters.
     @Transaction()
-    public async UpdateAsset(ctx: Context, id: string, id_mitra: string, nim: string, file_sr: string, file_sptjm: string, program: string, persetujuan: string, selesai: string, created_at: string): Promise<any> {
-        const exists = await this.AssetExists(ctx, id);
+    public async UpdateAsset(ctx: Context, id: string, id_mitra: string, id_persetujuan_prodi: string, nim: string, nama: string, file: string, program: string, persetujuan: string, selesai_laporan: string, selesai: string, created_at: string): Promise<any> {
+        
+      const exists = await this.AssetExists(ctx, id);
         if (!exists) {
             throw new Error(`The asset ${id} does not exist`);
         }
 
         // overwriting original asset with new asset
-        const updatedAsset: Registry = {
+        const updatedAsset: Pendaftaran = {
             id: id,
             mitraId: id_mitra,
+            persetujuanId: id_persetujuan_prodi,
             nim: nim,
-            file_sr: file_sr,
-            file_sptjm: file_sptjm,
+            nama: nama,
+            file: file,
             program: program,
             persetujuan: persetujuan,
             selesai: selesai,
+            selesai_laporan: selesai_laporan,
             created_at: created_at,
             updated_at: moment().format(),
         };
