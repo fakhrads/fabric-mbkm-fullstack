@@ -13,7 +13,6 @@ invokeRouter.put('/:typeTransaction/:channelName/:chaincodeName/:transactionName
     const chaincodeName = req.params.chaincodeName
     const transactionName = req.params.transactionName
 
-
     
     if (!channelName || !chaincodeName || !transactionName || !orgName || !typeTransaction) {
         return res.send({ "error": "Missing parameters" });

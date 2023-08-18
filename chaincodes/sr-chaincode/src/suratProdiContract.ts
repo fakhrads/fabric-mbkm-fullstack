@@ -145,7 +145,7 @@ export class ProdiSmartContract extends Contract {
     }
 
     @Transaction()
-    async UpdatePersetujuan(ctx: Context, assetID: string, newStatus: string): Promise<any> {
+    async UpdatePersetujuan(ctx: Context, assetID: string, newStatus: string, selesai: string): Promise<any> {
         const exists = await this.AssetExists(ctx, assetID);
         if (!exists) {
             throw new Error(`Aset dengan ID ${assetID} tidak ditemukan.`);
@@ -155,6 +155,7 @@ export class ProdiSmartContract extends Contract {
         const asset = JSON.parse(assetBuffer.toString());
 
         asset.persetujuan = newStatus;
+        asset.selesai = selesai
         asset.updated_at = moment().format();
 
         await ctx.stub.putState(assetID, Buffer.from(JSON.stringify(asset)));

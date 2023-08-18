@@ -7,6 +7,12 @@ import stringify from 'json-stringify-deterministic';
 import sortKeysRecursive from 'sort-keys-recursive';
 import { Pendaftaran } from './registry';
 var moment = require('moment');
+interface QueryPersetujuan {
+  selector: {
+    persetujuanId: string;
+  };
+}
+
 interface QueryString {
   selector: {
     nim: string;
@@ -68,6 +74,28 @@ export class PendaftaranSmartContract extends Contract {
             const queryString: QueryByMitra = {
               selector: {
                 mitraId: id_mitra,
+              },
+            };
+
+
+            let iterator =  await ctx.stub.getQueryResult(JSON.stringify(queryString));
+            let data = await this.filterQueryData(iterator);
+            
+            return JSON.parse(data);
+        } catch (error) {
+            console.log("error", error);
+            return error;
+        }
+    }
+
+    @Transaction(false)
+    public async QueryByPersetujuanID(ctx: Context, id_persetujuan_prodi: string): Promise<any> {
+
+        try {
+
+            const queryString: QueryPersetujuan = {
+              selector: {
+                persetujuanId: id_persetujuan_prodi,
               },
             };
 

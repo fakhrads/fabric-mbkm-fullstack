@@ -19,6 +19,12 @@ interface QueryByMitra {
     mitraId: string;
   };
 }
+
+interface QueryByPendaftaranID {
+  selector: {
+    pendaftaranId: string;
+  };
+}
 @Info({title: 'ScoreSmartContract', description: 'Smart contract for score MBKM'})
 export class NilaiSmartContract extends Contract {
 
@@ -63,6 +69,28 @@ export class NilaiSmartContract extends Contract {
             const queryString: QueryByMitra = {
               selector: {
                 mitraId: id_mitra,
+              },
+            };
+
+
+            let iterator =  await ctx.stub.getQueryResult(JSON.stringify(queryString));
+            let data = await this.filterQueryData(iterator);
+            
+            return JSON.parse(data);
+        } catch (error) {
+            console.log("error", error);
+            return error;
+        }
+    }
+
+    @Transaction(false)
+    public async QueryByPendaftaranID(ctx: Context, pendaftaranId: string): Promise<any> {
+
+        try {
+
+            const queryString: QueryByPendaftaranID = {
+              selector: {
+                pendaftaranId: pendaftaranId,
               },
             };
 

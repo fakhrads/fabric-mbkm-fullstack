@@ -13,7 +13,11 @@ interface QueryString {
     nim: string;
   };
 }
-
+interface QueryByPendaftaranID {
+    selector: {
+      pendaftaranId: string;
+    };
+  }
 @Info({title: 'ActivityContract', description: 'Smart contract for activity MBKM'})
 export class KegiatanContract extends Contract {
     
@@ -48,6 +52,28 @@ export class KegiatanContract extends Contract {
             throw new Error(`The asset ${id} does not exist`);
         }
         return assetJSON.toString();
+    }
+
+    @Transaction(false)
+    public async QueryByPendaftaranID(ctx: Context, pendaftaranId: string): Promise<any> {
+
+        try {
+
+            const queryString: QueryByPendaftaranID = {
+              selector: {
+                pendaftaranId: pendaftaranId,
+              },
+            };
+
+
+            let iterator =  await ctx.stub.getQueryResult(JSON.stringify(queryString));
+            let data = await this.filterQueryData(iterator);
+            
+            return JSON.parse(data);
+        } catch (error) {
+            console.log("error", error);
+            return error;
+        }
     }
 
     @Transaction(false)
